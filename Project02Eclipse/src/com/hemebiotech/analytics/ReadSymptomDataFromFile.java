@@ -9,9 +9,19 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Reading a list of symptoms, counting and writing occurrences for each symptom
+ * sorted in a new file
+ * 
+ * @author Fabrice Garnier
+ *
+ */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 	/**
 	 * 1st step reading symptoms from symptoms.txt file
+	 * 
+	 * @throws Exception FileNotFoundException if impossible to find source folder
+	 *                   symptoms.txt
 	 * 
 	 * @param filePathSymptoms
 	 * 
@@ -36,23 +46,29 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			try {
+				while (line != null) {
+					while (line.isEmpty()) {
+						break;
+					}
 
-			while (line != null && !line.isEmpty()) {
-				// if (line.isEmpty()) {
-				// line = readerSymptom.readLine();
-				// }
-				if (resultSymptom.containsKey(line)) {
-					resultSymptom.put(line, (resultSymptom.get(line)) + 1);
-				} else {
-					resultSymptom.put(line, 1);
+					if (!line.isEmpty() && resultSymptom.containsKey(line)) {
+						resultSymptom.put(line, (resultSymptom.get(line)) + 1);
+					} else {
+						if (!line.isEmpty()) {
+							resultSymptom.put(line, 1);
+						}
+					}
+					line = readerSymptom.readLine();
 				}
-				line = readerSymptom.readLine();
+			} finally {
+				readerSymptom.close();
 			}
 
-			readerSymptom.close();
+		} catch (
 
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichier symptoms.txt introuvable");
+		FileNotFoundException e) {
+			System.out.println("File symptoms.txt unreachable");
 			System.exit(-1);
 
 		} catch (IOException e) {
@@ -67,7 +83,6 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 * data is available, return an empty List
 	 * 
 	 * @param filepathresults
-	 * 
 	 * 
 	 * @throws Exception FileNotFoundException if impossible to find folder to
 	 *                   export results.out.txt
@@ -89,17 +104,16 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				out.newLine();
 			}
 			out.flush();
+
 			out.close();
 
 		} catch (
 
 		FileNotFoundException e) {
-			System.out.println("répertoire pour créer results.out.txt introuvable");
+			System.out.println("Directory to create results.out.txt not found");
 			System.exit(-1);
-
 		}
-
-		System.out.println("terminé");
+		System.out.println("Finished");
 	}
 
 	@Override
