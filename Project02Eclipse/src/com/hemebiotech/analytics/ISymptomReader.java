@@ -18,4 +18,5 @@ public interface ISymptomReader {
 	 *         are possible/probable
 	 */
 	TreeMap<String, Integer> getSymptoms();
+
 }
