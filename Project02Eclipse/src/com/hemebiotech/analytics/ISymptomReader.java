@@ -16,7 +16,7 @@ public interface ISymptomReader {
 	 *         are possible/probable
 	 * 
 	 * @param filePathSymptoms
-	 * @param filePathResults)
+	 * @param filePathResults
 	 */
 
 	void getSymptoms(String filePathSymptoms) throws Exception;
