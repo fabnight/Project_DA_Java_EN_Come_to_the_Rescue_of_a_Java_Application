@@ -9,6 +9,7 @@ package com.hemebiotech.analytics;
  * 
  */
 public interface ISymptomReader {
+
 	/**
 	 * If no data is available, return an empty List
 	 * 
@@ -16,10 +17,14 @@ public interface ISymptomReader {
 	 *         are possible/probable
 	 * 
 	 * @param filePathSymptoms
-	 * @param filePathResults
+	 *
 	 */
-
 	void getSymptoms(String filePathSymptoms) throws Exception;
 
+	/**
+	 * @param filePathSymptoms
+	 * @param filePathResults
+	 * @throws Exception
+	 */
 	void writeFileToTxt(String filePathSymptoms, String filePathResults) throws Exception;
 }

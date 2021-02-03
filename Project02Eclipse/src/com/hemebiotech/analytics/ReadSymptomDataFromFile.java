@@ -36,32 +36,33 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	TreeMap<String, Integer> readFileTxt(String filePathSymptoms) throws IOException {
 		TreeMap<String, Integer> resultSymptom = new TreeMap<String, Integer>();
+		BufferedReader readerSymptom = null;
 
+		// Counting occurrences for each symptom of the file "symptoms.txt",
+		// alphabetical sorting
 		try {
-			BufferedReader readerSymptom = new BufferedReader(new FileReader(filePathSymptoms));
-			// Counting occurrences for each symptom of the file "symptoms.txt",
-			// alphabetical sorting
-			String line = null;
-			try {
-				line = readerSymptom.readLine();
-				while (line != null && !line.isEmpty()) {
+			readerSymptom = new BufferedReader(new FileReader(filePathSymptoms));
 
-					if (resultSymptom.containsKey(line)) {
-						resultSymptom.put(line, (resultSymptom.get(line)) + 1);
-					} else {
-						resultSymptom.put(line, 1);
-					}
-					line = readerSymptom.readLine();
+			String line = null;
+			line = readerSymptom.readLine();
+
+			while (line != null && !line.isEmpty()) {
+
+				if (resultSymptom.containsKey(line)) {
+					resultSymptom.put(line, (resultSymptom.get(line)) + 1);
+				} else {
+					resultSymptom.put(line, 1);
 				}
-			} finally {
-				readerSymptom.close();
+				line = readerSymptom.readLine();
 			}
 
-		} catch (
-
-		FileNotFoundException e) {
-			System.out.println("File symptoms.txt unreachable");
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
 			System.exit(-1);
+
+		} finally {
+			readerSymptom.close();
+
 		}
 		return resultSymptom;
 	}
@@ -76,7 +77,6 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 * @throws Exception FileNotFoundException if impossible to find folder to
 	 *                   export results.out.txt
 	 */
-
 	@Override
 	public void writeFileToTxt(String filePathSymptoms, String filePathResults) throws Exception {
 		TreeMap<String, Integer> resultSymptom = readFileTxt(filePathSymptoms);
@@ -84,27 +84,25 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 
 	private void writeFile(String filePathResults, TreeMap<String, Integer> resultSymptom) throws Exception {
+		FileWriter file = null;
+		BufferedWriter out = null;
 
 		try {
-
-			FileWriter file = new FileWriter(filePathResults);
-			BufferedWriter out = new BufferedWriter(file);
+			file = new FileWriter(filePathResults);
+			out = new BufferedWriter(file);
 
 			for (Map.Entry<String, Integer> entry : resultSymptom.entrySet()) {
 				out.write(entry.getKey() + "=" + entry.getValue());
 				out.newLine();
 			}
-			out.flush();
 
-			out.close();
-
-		} catch (
-
-		FileNotFoundException e) {
-			System.out.println("Directory to create results.out.txt not found");
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
 			System.exit(-1);
+		} finally {
+			out.flush();
+			out.close();
+			System.out.println("Finished");
 		}
-		System.out.println("Finished");
 	}
-
 }
