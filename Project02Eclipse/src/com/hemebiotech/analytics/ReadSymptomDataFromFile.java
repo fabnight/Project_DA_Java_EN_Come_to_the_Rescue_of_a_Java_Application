@@ -11,14 +11,15 @@ import java.util.TreeMap;
 
 /**
  * Reading a list of symptoms, counting and writing occurrences for each symptom
- * sorted in a new file
+ * sorted in a new txt file
  * 
  * @author Fabrice Garnier
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 	/**
-	 * 1st step reading symptoms from symptoms.txt file
+	 * 1st step reading symptoms from symptoms.txt file. Stop reading if find an
+	 * empty line.
 	 * 
 	 * @throws Exception FileNotFoundException if impossible to find source folder
 	 *                   symptoms.txt
@@ -27,14 +28,8 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 * 
 	 * @return resultSymptom
 	 */
-
 	@Override
-	public void getSymptoms(String filePathSymptoms) throws Exception {
-
-		readFileTxt(filePathSymptoms);
-	}
-
-	TreeMap<String, Integer> readFileTxt(String filePathSymptoms) throws IOException {
+	public TreeMap<String, Integer> getSymptoms(String filePathSymptoms) throws IOException {
 		TreeMap<String, Integer> resultSymptom = new TreeMap<String, Integer>();
 		BufferedReader readerSymptom = null;
 
@@ -78,12 +73,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 *                   export results.out.txt
 	 */
 	@Override
-	public void writeFileToTxt(String filePathSymptoms, String filePathResults) throws Exception {
-		TreeMap<String, Integer> resultSymptom = readFileTxt(filePathSymptoms);
-		writeFile(filePathResults, resultSymptom);
-	}
-
-	private void writeFile(String filePathResults, TreeMap<String, Integer> resultSymptom) throws Exception {
+	public void writeFileToTxt(String filePathResults, TreeMap<String, Integer> resultSymptom) throws Exception {
 		FileWriter file = null;
 		BufferedWriter out = null;
 

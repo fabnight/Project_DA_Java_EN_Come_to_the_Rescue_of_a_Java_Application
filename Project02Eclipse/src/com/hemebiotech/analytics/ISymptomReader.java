@@ -1,5 +1,7 @@
 package com.hemebiotech.analytics;
 
+import java.util.TreeMap;
+
 /**
  * Anything that will read symptom data from a source The important part is, the
  * return value from the operation, which is a list of strings, that may contain
@@ -17,14 +19,15 @@ public interface ISymptomReader {
 	 *         are possible/probable
 	 * 
 	 * @param filePathSymptoms
-	 *
+	 * @throws Exception
 	 */
-	void getSymptoms(String filePathSymptoms) throws Exception;
+	TreeMap<String, Integer> getSymptoms(String filePathSymptoms) throws Exception;
 
 	/**
-	 * @param filePathSymptoms
+	 * Create a new list "results.out.txt"
+	 * 
 	 * @param filePathResults
 	 * @throws Exception
 	 */
-	void writeFileToTxt(String filePathSymptoms, String filePathResults) throws Exception;
+	void writeFileToTxt(String filePathResults, TreeMap<String, Integer> resultSymptom) throws Exception;
 }
